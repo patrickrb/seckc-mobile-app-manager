@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -17,7 +17,11 @@ import { Plus, Minus } from 'lucide-react';
 import { createEvent, updateEvent, getEvents } from '@/lib/events';
 import { parseEventDateToInputFormat, formatInputDateToEventDate } from '@/lib/dateUtils';
 
-export default function EventForm() {
+interface EventFormProps {
+  eventId?: string;
+}
+
+export default function EventForm({ eventId }: EventFormProps) {
   // Basic fields
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -40,8 +44,6 @@ export default function EventForm() {
   
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const eventId = searchParams.get('id');
 
   // Load events and find the one being edited
   useEffect(() => {
